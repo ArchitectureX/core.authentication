@@ -1,0 +1,35 @@
+name: publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - name: Install dependencies
+        run: |
+          rm -rf node_modules
+          npm install
+          npm install -D webpack-cli
+      - name: Verify package installation
+        run: |
+          echo "Webpack version:"
+          npx webpack --version
+          echo "Webpack CLI version:"
+          npx webpack-cli --version
+      - run: npm run build
+      - run: chmod u+x publish.sh
+      - run: git config --global user.email "foggdev@gmail.com"
+      - run: git config --global user.name "Auto Commit Bot"
+      - run: npm run versioning
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
