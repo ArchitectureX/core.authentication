@@ -1,1 +1,1 @@
-# @architecturex/core.i18n
+# @architecturex/core.authentication
