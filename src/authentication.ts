@@ -8,10 +8,10 @@ export const expiresIn = '30d'
 export const createToken = async (user: any): Promise<string[] | string> => {
   const {
     id,
-    user_role_id,
-    tier_id,
+    userRoleId,
+    tierId,
     tier,
-    personal_information,
+    information,
     username,
     password,
     email,
@@ -23,11 +23,11 @@ export const createToken = async (user: any): Promise<string[] | string> => {
   const token = security.base64.encode(`${security.password.encrypt(secretKey)}${password}`)
   const userData = {
     id,
-    user_role_id,
-    tier_id,
+    userRoleId,
+    tierId,
     tier,
     role,
-    personal_information,
+    information,
     username,
     email,
     active,
@@ -67,7 +67,7 @@ export const authenticate = async (
 
   const user = await getUserBy(
     where,
-    ['global::god', 'global::admin', 'business::admin', 'business::editor', 'business::agent'],
+    ['global.god', 'global.admin', 'business.admin', 'business.editor', 'business.agent'],
     models
   )
 
